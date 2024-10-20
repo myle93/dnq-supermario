@@ -6,6 +6,7 @@ __pycache__/
 # IDE stuff
 /venv/
 .vscode/
+ignore/
 
 # C extensions
 *.so
