@@ -229,7 +229,7 @@ if __name__ == "__main__":
     nextState = torch.tensor(numpy.array(observation)[:,8:8+84,:,:], dtype=torch.float32)
     nextState= nextState.reshape((1,4,84,84))
 
-    trainingSteps = 8000000
+    trainingSteps = 600000
 
 
     episodeReward = 0
