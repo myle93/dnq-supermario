@@ -47,3 +47,9 @@ An alternative for Dev Container is virtual environment, with which you only hav
 
 1. Install `Python Test Explorer for Visual Studio Code` extension from `Little Fox Team`
 2. If the no build error, the tests will be recogniyed an can be then run locally.
+
+## Train and validate the models
+
+### Breakout
+
+- To train the model to play Breakout, run `python3 deep_q_breakout.py -c config/breakout.yaml`
