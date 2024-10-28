@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     with open(config_path) as file:
         yaml_data = yaml.safe_load(file)
-    config = BreakOutConfig(**yaml_data)
+    config = BreakOutConfig.model_validate(yaml_data)
 
     env = make(config.env.game)  # type: ignore
     env = ResizeObservation(env, config.env.obs_shape)
