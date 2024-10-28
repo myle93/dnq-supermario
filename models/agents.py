@@ -55,16 +55,14 @@ class BreakOutAgent:
         self,
         config: BreakOutConfig,
         env: FrameStack,
-        save_path: Path = Path(__file__).resolve().parent.parent
-        / "checkpoints"
-        / "breakout.pkl",
+        save_path: Path = Path(__file__).resolve().parent.parent / "checkpoints",
     ):
         self.device = "cuda" if is_available() else "cpu"
-        self.save_path = save_path
+        self.save_path = save_path / f"{config.agent_name}.pt"
         self.model = Network(config.train.in_frames, config.train.possible_actions).to(
             self.device
         )
-        if save_path.exists():
+        if self.save_path.exists():
             self.load_model()
         self.config = config
         self.train_epsilon: float = config.optimizer.epsilon_start
