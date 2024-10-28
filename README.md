@@ -6,6 +6,10 @@ Train a Deep Q Learning (DQN) agent to play Super Mario.
 
 ## Local development
 
+### Type anotation
+
+Install VS Code Extension `Pylance` from Microsoft and set typeCheckingMode in settings to `strict`.
+
 ### Dev Container
 
 In order to provide a uniform dev environment with the correct package versions, dev container is one of the best solutions.

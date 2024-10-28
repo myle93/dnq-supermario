@@ -1,0 +1,29 @@
+# agent
+agent_name: breakout_agent
+
+# env setting
+env:
+  game: ALE/Breakout-v5
+  n_stack: 4
+  keep_dim: True
+  obs_shape: [100, 84]
+
+# optimizer
+optimizer:
+  validation_epsilon: 0.05
+  epsilon_start: 1
+  epsilon_end: 0.1
+  epsilon_steps_between_start_and_end: 1000000
+  gamma: 0.9 # momentum
+  lr: 1e-4
+
+# training
+train:
+  batch_size: 32
+  buffer_length: 100
+  in_frames: 4
+  possible_actions: 4
+  steps: 1000
+  frame_skip: 4
+  validate_while_training: False
+  checkpoint_steps: 1000
