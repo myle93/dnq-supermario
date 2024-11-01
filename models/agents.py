@@ -72,9 +72,9 @@ class BreakOutAgent:
         self.optimizer = Adam(self.model.parameters(), config.optimizer.lr)
         self.loss_function = HuberLoss(reduction="mean")
 
-    def _update_epsilon(self):
-        if self.train_epsilon > self.config.optimizer.epsilon_end:
-            self.train_epsilon = self.train_epsilon - (
+    def _update_epsilon(self, epsilon: float):
+        if epsilon > self.config.optimizer.epsilon_end:
+            epsilon = epsilon - (
                 (
                     self.config.optimizer.epsilon_start
                     - self.config.optimizer.epsilon_end
@@ -157,7 +157,7 @@ class BreakOutAgent:
 
         for i in tqdm(range(self.config.train.steps), position=0, leave=True):
             state = nextState
-            self._update_epsilon()
+            self._update_epsilon(self.train_epsilon)
             action = self._pick_action(state, self.train_epsilon)
             observation, reward, terminated, truncated, _ = self._frame_skip_step(
                 action
@@ -205,7 +205,7 @@ class BreakOutAgent:
             while not terminated and not truncated:
                 step += 1
                 state = nextState
-                self._update_epsilon()
+                self._update_epsilon(self.validation_epsilon)
                 action = self._pick_action(state, self.validation_epsilon)
                 observation, reward, terminated, truncated, _ = self._frame_skip_step(
                     action
