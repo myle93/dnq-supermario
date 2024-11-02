@@ -4,7 +4,7 @@ from torch import cat, no_grad
 from numpy import array
 from random import random
 from typing import Any, Union
-from torch import Tensor, argmax, device, float32, load, save, tensor  # type: ignore
+from torch import Tensor, argmax, device, float32, load, save, tensor, set_default_device  # type: ignore
 from torch.optim import Adam
 from torch.nn import HuberLoss
 from torch.cuda import is_available
@@ -58,6 +58,7 @@ class BreakOutAgent:
         save_path: Path = Path(__file__).resolve().parent.parent / "checkpoints",
     ):
         self.device = "cuda" if is_available() else "cpu"
+        set_default_device(self.device)
         self.save_path = save_path / f"{config.agent_name}.pt"
         self.model = Network(config.train.in_frames, config.train.possible_actions).to(
             self.device
