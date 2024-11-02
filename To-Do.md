@@ -1,6 +1,8 @@
 seperate gamma in the optimizer (momentum) and gamma in the target (weigth of future actions)
 --> parameter dokumentieren, was macht was und warum
 
+add better visual validation of the model
+
 save epsilon with model if its not finished training so you can resume training later
 
 make validation a for loop (at least 10 episodes)
