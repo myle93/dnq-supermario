@@ -3,6 +3,7 @@ import gymnasium
 from gymnasium import make  # type: ignore
 from gymnasium.wrappers import FrameStack, ResizeObservation, GrayScaleObservation  # type: ignore
 import ale_py
+import torch
 from models.agents import BreakOutAgent, BreakOutConfig
 import yaml
 
@@ -29,6 +30,10 @@ if __name__ == "__main__":
     env = GrayScaleObservation(env, keep_dim=config.env.keep_dim)
     env = FrameStack(env, config.env.n_stack)
 
+    if torch.cuda.is_available():
+        print("Using GPU")
+    else: 
+        print("Using CPU")
     agents = BreakOutAgent(config, env)
     agents.train()
     agents.validate()

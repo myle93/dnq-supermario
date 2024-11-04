@@ -53,3 +53,4 @@ An alternative for Dev Container is virtual environment, with which you only hav
 ### Breakout
 
 - To train the model to play Breakout, run `python3 deep_q_breakout.py -c config/breakout.yaml`
+- To validate the model, run `python3 deep_q_breakout_validation.py`
