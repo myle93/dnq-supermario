@@ -9,13 +9,11 @@ import yaml
 
 gymnasium.register_envs(ale_py)
 
-
 def get_env_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the Deep Q Breakout model")
     parser.add_argument("-c", "--configpath", type=str, help="Path to the config file")
     args = parser.parse_args()
     return args
-
 
 if __name__ == "__main__":
     args = get_env_args()
