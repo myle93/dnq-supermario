@@ -12,6 +12,8 @@ from gymnasium.wrappers.frame_stack import FrameStack, LazyFrames
 from models.buffer import ReplayBuffer
 from tqdm.auto import tqdm
 from pydantic import BaseModel
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 class BreakOutConfig(BaseModel):
@@ -105,6 +107,15 @@ class BreakOutAgent:
                 return observation, fullReward, terminated, truncated, info
         return observation, fullReward, terminated, truncated, info
 
+    def _visualize_validation_reward(self, validations_file_path: Path):
+        validations = np.loadtxt(validations_file_path, delimiter=",")
+        plt.plot(validations[:, 0], validations[:, 1])
+        plt.xlabel("Steps")
+        plt.ylabel("Validation Reward")
+        plt.title("Validation Rewards over Steps")
+        plt.savefig("validation_rewards.png")
+        plt.close()
+
     def save_model(self):
         save(self.model.state_dict(), self.save_path)
 
@@ -154,7 +165,7 @@ class BreakOutAgent:
         ).reshape((1, 4, 84, 84))
         state = nextState
         episode_reward = 0
-        validation_episode_reward = 0
+        max_validation_episode_reward = 0
 
         for i in tqdm(range(self.config.train.steps), position=0, leave=True):
             state = nextState
@@ -182,13 +193,19 @@ class BreakOutAgent:
                 or i == self.config.train.steps - 1
             ):
                 if self.config.train.validate_while_training:
-                    tqdm.write(
-                        f"Validation at step: {i+1}, Train epsilon: {self.train_epsilon}"
-                    )
                     current_validate_reward = self.validate()
-                    if current_validate_reward > validation_episode_reward:
-                        validation_episode_reward = current_validate_reward
+                    if current_validate_reward > max_validation_episode_reward:
+                        max_validation_episode_reward = current_validate_reward
                         self.save_model()
+
+                    validations_file_path = self.save_path.parent / "validations.txt"
+                    validations_file = open(validations_file_path, "a")
+                    validations_file.write(f"{i+1},{current_validate_reward}\n")
+                    validations_file.close()
+
+                    if i == self.config.train.steps - 1:
+                        self._visualize_validation_reward(validations_file_path)
+
                 else:
                     self.save_model()
 
