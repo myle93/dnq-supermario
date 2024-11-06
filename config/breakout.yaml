@@ -14,7 +14,7 @@ optimizer:
   epsilon_start: 1
   epsilon_end: 0.1
   epsilon_steps_between_start_and_end: 1000000
-  gamma: 0.9 # momentum
+  gamma: 0.997 # momentum
   lr: 1e-4
 
 # training
